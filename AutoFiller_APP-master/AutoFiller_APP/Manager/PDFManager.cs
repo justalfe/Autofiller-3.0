@@ -253,8 +253,7 @@ namespace AutoFiller_APP.Manager
                 }
                 pdfEntity.FilePath = _destinationFile;
                 pdfEntity.CreatedDate = DateTime.Now;
-                pdfEntity.FormId = source._uniqueId;
-                pdfEntity.FormData = string.Empty;
+                pdfEntity.UniqueId = source._uniqueId;                
 
                 SavePdfData(pdfEntity);
 

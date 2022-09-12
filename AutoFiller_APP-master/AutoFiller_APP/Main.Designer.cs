@@ -39,6 +39,7 @@
             this._selectedCivilSurgeonPreview = new System.Windows.Forms.Label();
             this._selectedPreparerPreview = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
+            this.ExportData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._existingForms)).BeginInit();
             this.SuspendLayout();
             // 
@@ -157,11 +158,23 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
+            // ExportData
+            // 
+            this.ExportData.Cursor = System.Windows.Forms.Cursors.SizeNESW;
+            this.ExportData.Location = new System.Drawing.Point(816, 12);
+            this.ExportData.Name = "ExportData";
+            this.ExportData.Size = new System.Drawing.Size(145, 23);
+            this.ExportData.TabIndex = 50;
+            this.ExportData.Text = "Export";
+            this.ExportData.UseVisualStyleBackColor = true;
+            this.ExportData.Click += new System.EventHandler(this.ExportData_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(973, 499);
+            this.Controls.Add(this.ExportData);
             this.Controls.Add(this.button4);
             this.Controls.Add(this._selectedPreparerPreview);
             this.Controls.Add(this._selectedCivilSurgeonPreview);
@@ -196,6 +209,7 @@
         private System.Windows.Forms.Label _selectedCivilSurgeonPreview;
         private System.Windows.Forms.Label _selectedPreparerPreview;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button ExportData;
     }
 }
 

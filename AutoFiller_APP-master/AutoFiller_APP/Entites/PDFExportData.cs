@@ -15,13 +15,11 @@ namespace AutoFiller_APP.Entites
     public partial class PDFExportData
     {
         public long Id { get; set; }
-        public string FormId { get; set; }
-        public string FormData { get; set; }
+        public string UniqueId { get; set; }
         public string Source { get; set; }
         public string FilePath { get; set; }
         public string Surgeon { get; set; }
         public string Preparer { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> LastUpdated { get; set; }
     }
 }

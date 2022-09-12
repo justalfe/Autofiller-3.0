@@ -25,8 +25,8 @@ namespace AutoFiller_APP.Entites
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<PDFExportData> PDFExportDatas { get; set; }
         public virtual DbSet<CivilSurgeon> CivilSurgeons { get; set; }
         public virtual DbSet<Preparer> Preparers { get; set; }
+        public virtual DbSet<PDFExportData> PDFExportDatas { get; set; }
     }
 }

@@ -20,14 +20,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FormId" Type="nvarchar(max)" />
-          <Property Name="FormData" Type="nvarchar(max)" />
+          <Property Name="UniqueId" Type="nvarchar(max)" />
           <Property Name="Source" Type="nvarchar(max)" />
           <Property Name="FilePath" Type="nvarchar(max)" />
           <Property Name="Surgeon" Type="nvarchar(max)" />
           <Property Name="Preparer" Type="nvarchar(max)" />
           <Property Name="CreatedDate" Type="datetime" />
-          <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <EntityType Name="Preparer">
           <Key>
@@ -49,24 +47,10 @@
     <edmx:ConceptualModels>
       <Schema Namespace="AutoFiller_APP_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AutoDBContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="PDFExportDatas" EntityType="AutoFiller_APP_DBModel.PDFExportData" />
           <EntitySet Name="CivilSurgeons" EntityType="AutoFiller_APP_DBModel.CivilSurgeon" />
           <EntitySet Name="Preparers" EntityType="AutoFiller_APP_DBModel.Preparer" />
+          <EntitySet Name="PDFExportDatas" EntityType="AutoFiller_APP_DBModel.PDFExportData" />
         </EntityContainer>
-        <EntityType Name="PDFExportData">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FormId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FormData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Source" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Surgeon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Preparer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="CivilSurgeon">
           <Key>
             <PropertyRef Name="Id" />
@@ -87,27 +71,24 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="LastUpdated" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="PDFExportData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UniqueId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surgeon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Preparer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AutoFiller_APP_DBModelStoreContainer" CdmEntityContainer="AutoDBContext">
-          <EntitySetMapping Name="PDFExportDatas">
-            <EntityTypeMapping TypeName="AutoFiller_APP_DBModel.PDFExportData">
-              <MappingFragment StoreEntitySet="PDFExportData">
-                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Preparer" ColumnName="Preparer" />
-                <ScalarProperty Name="Surgeon" ColumnName="Surgeon" />
-                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="FormData" ColumnName="FormData" />
-                <ScalarProperty Name="FormId" ColumnName="FormId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CivilSurgeons">
             <EntityTypeMapping TypeName="AutoFiller_APP_DBModel.CivilSurgeon">
               <MappingFragment StoreEntitySet="CivilSurgeon">
@@ -126,6 +107,19 @@
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="FormData" ColumnName="FormData" />
                 <ScalarProperty Name="FormId" ColumnName="FormId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PDFExportDatas">
+            <EntityTypeMapping TypeName="AutoFiller_APP_DBModel.PDFExportData">
+              <MappingFragment StoreEntitySet="PDFExportData">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Preparer" ColumnName="Preparer" />
+                <ScalarProperty Name="Surgeon" ColumnName="Surgeon" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="UniqueId" ColumnName="UniqueId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -144,5 +144,13 @@ namespace AutoFiller_APP
             var statistics = new StatisticsForm();
             statistics.Show();
         }
+
+        private void ExportData_Click(object sender, EventArgs e)
+        {
+            //CODE TO LUNCH A NEW FORM FOR EXPORTING DATA IN EXCEL FORMAT
+            var exportsExcel = new ExportForm();
+            exportsExcel.Show();
+
+        }
     }
 }
