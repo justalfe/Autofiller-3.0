@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [AutoFiller_APP_DB]    Script Date: 9/11/2022 12:04:18 PM ******/
+/****** Object:  Database [AutoFiller_APP_DB]    Script Date: 9/11/2022 10:11:14 PM ******/
 CREATE DATABASE [AutoFiller_APP_DB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -80,7 +80,7 @@ ALTER DATABASE [AutoFiller_APP_DB] SET QUERY_STORE = OFF
 GO
 USE [AutoFiller_APP_DB]
 GO
-/****** Object:  Table [dbo].[CivilSurgeon]    Script Date: 9/11/2022 12:04:19 PM ******/
+/****** Object:  Table [dbo].[CivilSurgeon]    Script Date: 9/11/2022 10:11:14 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -90,13 +90,14 @@ CREATE TABLE [dbo].[CivilSurgeon](
 	[FormId] [nvarchar](max) NULL,
 	[FormData] [nvarchar](max) NULL,
 	[CreatedDate] [datetime] NULL,
+	[LastUpdated] [datetime] NULL,
  CONSTRAINT [PK_CivilSurgeon] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PDFExportData]    Script Date: 9/11/2022 12:04:19 PM ******/
+/****** Object:  Table [dbo].[PDFExportData]    Script Date: 9/11/2022 10:11:14 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -110,13 +111,14 @@ CREATE TABLE [dbo].[PDFExportData](
 	[Surgeon] [nvarchar](max) NULL,
 	[Preparer] [nvarchar](max) NULL,
 	[CreatedDate] [datetime] NULL,
+	[LastUpdated] [datetime] NULL,
  CONSTRAINT [PK_PDFExportData] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Preparer]    Script Date: 9/11/2022 12:04:19 PM ******/
+/****** Object:  Table [dbo].[Preparer]    Script Date: 9/11/2022 10:11:14 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -126,6 +128,7 @@ CREATE TABLE [dbo].[Preparer](
 	[FormId] [nvarchar](max) NULL,
 	[FormData] [nvarchar](max) NULL,
 	[CreatedDate] [datetime] NULL,
+	[LastUpdated] [datetime] NULL,
  CONSTRAINT [PK_Preparer] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

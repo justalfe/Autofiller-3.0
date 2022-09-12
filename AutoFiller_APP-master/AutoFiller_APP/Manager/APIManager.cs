@@ -98,12 +98,22 @@ namespace AutoFiller_APP.Manager
                             //SAVE IN DATABASE
                             using (var context = new AutoDBContext())
                             {
-                                var sergeon = new CivilSurgeon();
-                                sergeon.FormId = latestObj._id;
-                                sergeon.FormData = JsonConvert.SerializeObject(latestObj);
-                                sergeon.CreatedDate = DateTime.Now;
-                                context.CivilSurgeons.Add(sergeon);
-                                context.SaveChanges();
+                                if (context.CivilSurgeons.Select(cs => cs.FormId.Equals(latestObj._id)) == null)
+                                {
+                                    var sergeon = new CivilSurgeon();
+                                    sergeon.FormId = latestObj._id;
+                                    sergeon.FormData = JsonConvert.SerializeObject(latestObj);
+                                    sergeon.CreatedDate = DateTime.Now;
+                                    context.CivilSurgeons.Add(sergeon);
+                                    context.SaveChanges();
+                                }
+                                else {
+
+                                    var sergeon = context.CivilSurgeons.Single(cs => cs.FormId.Equals(latestObj._id));
+                                    sergeon.FormData= JsonConvert.SerializeObject(latestObj);
+                                    sergeon.LastUpdated = DateTime.Now;
+                                    context.SaveChanges();
+                                }
                             }
                             //END
                         }
@@ -119,15 +129,26 @@ namespace AutoFiller_APP.Manager
                         var latestObj = collectionList.LastOrDefault();
                         if (latestObj != null)
                         {
-                            //SAVE IN DATABASE START
+                            //SAVE IN DATABASE
                             using (var context = new AutoDBContext())
                             {
-                                var preparerObj = new Preparer();
-                                preparerObj.FormId = latestObj._id;
-                                preparerObj.FormData = JsonConvert.SerializeObject(latestObj);
-                                preparerObj.CreatedDate = DateTime.Now;
-                                context.Preparers.Add(preparerObj);
-                                context.SaveChanges();
+                                if (context.Preparers.Select(cs => cs.FormId.Equals(latestObj._id)) == null)
+                                {
+                                    var preparerObj = new Preparer();
+                                    preparerObj.FormId = latestObj._id;
+                                    preparerObj.FormData = JsonConvert.SerializeObject(latestObj);
+                                    preparerObj.CreatedDate = DateTime.Now;
+                                    context.Preparers.Add(preparerObj);
+                                    context.SaveChanges();
+                                }
+                                else
+                                {
+                                    var preparerObj = context.Preparers.Single(pr => pr.FormId.Equals(latestObj._id));
+                                    preparerObj.FormData = JsonConvert.SerializeObject(latestObj);
+                                    preparerObj.LastUpdated = DateTime.Now;
+                                    context.SaveChanges();
+
+                                }
                             }
                             //END
                         }

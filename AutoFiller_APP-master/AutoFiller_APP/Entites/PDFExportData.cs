@@ -22,5 +22,6 @@ namespace AutoFiller_APP.Entites
         public string Surgeon { get; set; }
         public string Preparer { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> LastUpdated { get; set; }
     }
 }
