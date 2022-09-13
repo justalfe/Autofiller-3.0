@@ -67,7 +67,7 @@ namespace AutoFiller_APP.Model
     }
 
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    public class PdfDataExportModel
+    public class PatientExportModel
     {
         public string surgeon_fullname { get; set; }
         public string preparer_fullname { get; set; }

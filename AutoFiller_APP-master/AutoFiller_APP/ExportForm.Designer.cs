@@ -30,7 +30,7 @@
         {
             this.ExportSCExcel = new System.Windows.Forms.Button();
             this.ExportPrpExcel = new System.Windows.Forms.Button();
-            this.ExportPDFData = new System.Windows.Forms.Button();
+            this.ExportPatientData = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ExportSCExcel
@@ -53,20 +53,20 @@
             this.ExportPrpExcel.UseVisualStyleBackColor = true;
             this.ExportPrpExcel.Click += new System.EventHandler(this.ExportPrpExcel_Click);
             // 
-            // ExportPDFData
+            // ExportPatientData
             // 
-            this.ExportPDFData.Location = new System.Drawing.Point(43, 200);
-            this.ExportPDFData.Name = "ExportPDFData";
-            this.ExportPDFData.Size = new System.Drawing.Size(198, 23);
-            this.ExportPDFData.TabIndex = 2;
-            this.ExportPDFData.Text = "Export PDF Data to Excel";
-            this.ExportPDFData.UseVisualStyleBackColor = true;
-            this.ExportPDFData.Click += new System.EventHandler(this.ExportPDFData_Click);
+            this.ExportPatientData.Location = new System.Drawing.Point(43, 200);
+            this.ExportPatientData.Name = "ExportPatientData";
+            this.ExportPatientData.Size = new System.Drawing.Size(198, 23);
+            this.ExportPatientData.TabIndex = 2;
+            this.ExportPatientData.Text = "Export Patients to Excel";
+            this.ExportPatientData.UseVisualStyleBackColor = true;
+            this.ExportPatientData.Click += new System.EventHandler(this.ExportPatientData_Click);
             // 
             // ExportForm
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.ExportPDFData);
+            this.Controls.Add(this.ExportPatientData);
             this.Controls.Add(this.ExportPrpExcel);
             this.Controls.Add(this.ExportSCExcel);
             this.Name = "ExportForm";
@@ -78,6 +78,6 @@
 
         private System.Windows.Forms.Button ExportSCExcel;
         private System.Windows.Forms.Button ExportPrpExcel;
-        private System.Windows.Forms.Button ExportPDFData;
+        private System.Windows.Forms.Button ExportPatientData;
     }
 }

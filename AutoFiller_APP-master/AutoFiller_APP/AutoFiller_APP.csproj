@@ -126,7 +126,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBUtilityModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Entites\PDFExportData.cs">
+    <Compile Include="Entites\Patient.cs">
       <DependentUpon>DBUtilityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Entites\Preparer.cs">

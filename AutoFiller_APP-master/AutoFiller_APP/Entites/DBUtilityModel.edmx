@@ -15,7 +15,7 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
-        <EntityType Name="PDFExportData">
+        <EntityType Name="Patient">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -39,7 +39,7 @@
         </EntityType>
         <EntityContainer Name="AutoFiller_APP_DBModelStoreContainer">
           <EntitySet Name="CivilSurgeon" EntityType="Self.CivilSurgeon" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PDFExportData" EntityType="Self.PDFExportData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preparer" EntityType="Self.Preparer" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -49,7 +49,7 @@
         <EntityContainer Name="AutoDBContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CivilSurgeons" EntityType="AutoFiller_APP_DBModel.CivilSurgeon" />
           <EntitySet Name="Preparers" EntityType="AutoFiller_APP_DBModel.Preparer" />
-          <EntitySet Name="PDFExportDatas" EntityType="AutoFiller_APP_DBModel.PDFExportData" />
+          <EntitySet Name="Patients" EntityType="AutoFiller_APP_DBModel.Patient" />
         </EntityContainer>
         <EntityType Name="CivilSurgeon">
           <Key>
@@ -71,7 +71,7 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="LastUpdated" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="PDFExportData">
+        <EntityType Name="Patient">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -111,9 +111,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PDFExportDatas">
-            <EntityTypeMapping TypeName="AutoFiller_APP_DBModel.PDFExportData">
-              <MappingFragment StoreEntitySet="PDFExportData">
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="AutoFiller_APP_DBModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Preparer" ColumnName="Preparer" />
                 <ScalarProperty Name="Surgeon" ColumnName="Surgeon" />

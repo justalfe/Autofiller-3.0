@@ -7,7 +7,7 @@
       <Diagram DiagramId="755c211b45a84083820cfc9603f23963" Name="Diagram1">
         <EntityTypeShape EntityType="AutoFiller_APP_DBModel.CivilSurgeon" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="AutoFiller_APP_DBModel.Preparer" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="AutoFiller_APP_DBModel.PDFExportData" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AutoFiller_APP_DBModel.Patient" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

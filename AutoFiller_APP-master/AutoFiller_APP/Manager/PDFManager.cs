@@ -237,25 +237,25 @@ namespace AutoFiller_APP.Manager
 
                 //saving pdf data into table
 
-                var pdfEntity = new PDFExportData();
+                var patient = new Patient();
 
                 if (source != null)
                 {
-                    pdfEntity.Source = JsonConvert.SerializeObject(source);
+                    patient.Source = JsonConvert.SerializeObject(source);
                 }
                 if (surgeon != null)
                 {
-                    pdfEntity.Surgeon = JsonConvert.SerializeObject(surgeon);
+                    patient.Surgeon = JsonConvert.SerializeObject(surgeon);
                 }
                 if (preparer != null)
                 {
-                    pdfEntity.Preparer = JsonConvert.SerializeObject(preparer);
+                    patient.Preparer = JsonConvert.SerializeObject(preparer);
                 }
-                pdfEntity.FilePath = _destinationFile;
-                pdfEntity.CreatedDate = DateTime.Now;
-                pdfEntity.UniqueId = source._uniqueId;                
+                patient.FilePath = _destinationFile;
+                patient.CreatedDate = DateTime.Now;
+                patient.UniqueId = source._uniqueId;                
 
-                SavePdfData(pdfEntity);
+                SavePatientData(patient);
 
                 System.Diagnostics.Process.Start(_destinationFile);
             }
@@ -272,11 +272,11 @@ namespace AutoFiller_APP.Manager
                 fields.SetField(entry, content);
         }
 
-        private static void SavePdfData(PDFExportData model)
+        private static void SavePatientData(Patient model)
         {
             using (var db = new AutoDBContext())
             {
-                db.PDFExportDatas.Add(model);
+                db.Patients.Add(model);
                 db.SaveChanges();
             }
         }

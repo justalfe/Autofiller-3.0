@@ -161,7 +161,7 @@ namespace AutoFiller_APP
 
                                 foreach (var item in preparerModel)
                                 {
-                                    dt.Rows.Add(item._id, item._name, item._middleName, item._lastName,
+                                    dt.Rows.Add(item._id,  item._name, item._middleName, item._lastName,
                                         item._organization,
                                         item._streetAddress,
                                         item._addressType,
@@ -205,12 +205,12 @@ namespace AutoFiller_APP
             }
         }
 
-        private void ExportPDFData_Click(object sender, EventArgs e)
+        private void ExportPatientData_Click(object sender, EventArgs e)
         {
             using (var db = new AutoDBContext())
             {
-                var pdfDataModel = db.PDFExportDatas.AsEnumerable().Select(d => MapPdfDataSet(d.Source, d.Surgeon, d.Preparer)).ToList();
-                if (pdfDataModel.Count > 0)
+                var patientModel = db.Patients.AsEnumerable().Select(d => MapPatientDataSet(d.Source, d.Surgeon, d.Preparer)).ToList();
+                if (patientModel.Count > 0)
                 {
                     try
                     {
@@ -219,9 +219,9 @@ namespace AutoFiller_APP
                         {
                             if (sfd.ShowDialog() == DialogResult.OK)
                             {
-                                var properties = typeof(PdfDataExportModel).GetProperties();
+                                var properties = typeof(PatientExportModel).GetProperties();
 
-                                DataTable dt = new DataTable("PdfDataTable");
+                                DataTable dt = new DataTable("PatientDataTable");
 
                                 /*foreach (PropertyInfo p in properties)
                                 {
@@ -234,7 +234,7 @@ namespace AutoFiller_APP
                                             new DataColumn("Preparer Full Name"),
                                             new DataColumn("Applicant First Name"),
                                             new DataColumn("Applicant Middle Name"),
-                                            new DataColumn("Applicant Last Name"),
+                                            new DataColumn("Applicant Last Name"),                                            
                                             new DataColumn("Applicant Address Type"),
                                             new DataColumn("Applicant Address Number"),
                                             new DataColumn("Applicant Street"),
@@ -244,7 +244,7 @@ namespace AutoFiller_APP
                                             new DataColumn("Applicant Birth"),
                                             new DataColumn("Applicant Birth City"),
                                             new DataColumn("Applicant Birth Country"),
-                                            new DataColumn("Applicant Sex"),
+                                            new DataColumn("Applicant Sex"),                                           
                                             new DataColumn("Applicant Alien Registration Number"),
                                             new DataColumn("Applicant Uscis"),
                                             new DataColumn("Applicant Statement 1aORb"),
@@ -258,7 +258,7 @@ namespace AutoFiller_APP
                                             new DataColumn("Applicant Identification Number"),
                                             new DataColumn("Interpreter First Name"),
                                             new DataColumn("Interpreter Last Name"),
-                                            new DataColumn("Interpreter Organization"),
+                                            new DataColumn("Interpreter Organization"),                                            
                                             new DataColumn("Interpreter Street Address"),
                                             new DataColumn("Interpreter Address Type"),
                                             new DataColumn("Interpreter Address Number"),
@@ -273,13 +273,13 @@ namespace AutoFiller_APP
                                             new DataColumn("Interpreter Email"),
                                             new DataColumn("Interpreter Language"),
                                             new DataColumn("Interpreter Signature"),
-                                            new DataColumn("Interpreter Signature Date"),
+                                            new DataColumn("Interpreter Signature Date"),                                            
                                             new DataColumn("Exported PDF Date")
 
-                         });
+                         }); 
 
 
-                                foreach (var item in pdfDataModel)
+                                foreach (var item in patientModel)
                                 {
                                     dt.Rows.Add(item._uniqueId,
                                         item.surgeon_fullname,
@@ -292,7 +292,7 @@ namespace AutoFiller_APP
                                         item._addressStreet,
                                         item._addressCity,
                                         item._addressState,
-                                        item._addressZip,
+                                        item._addressZip,                                        
                                         item._birth,
                                         item._birthCity,
                                         item._birthCountry,
@@ -325,7 +325,7 @@ namespace AutoFiller_APP
                                         item._interpreterEmail,
                                         item._interpreterLanguage,
                                         item._interpreterSignature,
-                                        item._interpreterSignatureDate,
+                                        item._interpreterSignatureDate,                                        
                                         item._dateOfCreation
                                         );
                                 }
@@ -333,9 +333,9 @@ namespace AutoFiller_APP
 
                                 using (XLWorkbook workbook = new XLWorkbook())
                                 {
-                                    workbook.Worksheets.Add(dt, "PdfDataSheet");
+                                    workbook.Worksheets.Add(dt, "PatientsSheet");
                                     workbook.SaveAs(sfd.FileName);
-                                    MessageBox.Show("Pdf data exported successfully.");
+                                    MessageBox.Show("Patients exported successfully.");
                                 }
 
                             }
@@ -350,11 +350,11 @@ namespace AutoFiller_APP
             }
         }
 
-        private PdfDataExportModel MapPdfDataSet(string source, string surgeon, string preparer)
+        private PatientExportModel MapPatientDataSet(string source, string surgeon, string preparer)
         {
             if (!string.IsNullOrEmpty(source))
             {
-                var sourceModel = JsonConvert.DeserializeObject<PdfDataExportModel>(source);
+                var sourceModel = JsonConvert.DeserializeObject<PatientExportModel>(source);
                 var surgeonModel = string.IsNullOrEmpty(surgeon) ? new CivilSurgeonsExportModel() : JsonConvert.DeserializeObject<CivilSurgeonsExportModel>(surgeon);
                 var prepnModel = string.IsNullOrEmpty(preparer) ? new PreparerExportModel() : JsonConvert.DeserializeObject<PreparerExportModel>(preparer);
                 //set surgeon full name and prep full name
@@ -364,7 +364,7 @@ namespace AutoFiller_APP
             }
             else
             {
-                return new PdfDataExportModel();
+                return new PatientExportModel();
             }
         }
     }
