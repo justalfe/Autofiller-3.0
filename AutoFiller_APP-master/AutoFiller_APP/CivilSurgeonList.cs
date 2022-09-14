@@ -47,7 +47,7 @@ namespace AutoFiller_APP
                 MessageBox.Show(Utility.Constants.NO_ENTRY_SELECTED);
                 return;
             }
-            var ok = APIManager.DeleteCivilSurgeonPreparer(Main._instance._surgeons[_surgeonData.SelectedCells[0].RowIndex]._id,false);
+            var ok = APIManager.DeleteCivilSurgeonPreparer(Main._instance._surgeons[_surgeonData.SelectedCells[0].RowIndex]._id, false);
             if (ok)
             {
                 Main._instance.LoadCSP();
@@ -62,6 +62,12 @@ namespace AutoFiller_APP
             {
                 _surgeonData.Rows.Add(entry._name, entry._middleName, entry._lastName, entry._organization);
             }
+
+            foreach (var entry in Main._instance._surgeons)
+            {
+                APIManager.SaveCivilSurgeonFromFile(entry._id, false);
+            }
+
         }
 
         private void _selectButton_Click(object sender, EventArgs e)

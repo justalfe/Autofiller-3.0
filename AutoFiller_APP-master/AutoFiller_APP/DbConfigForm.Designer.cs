@@ -33,7 +33,7 @@
             this.lbl_database_name = new System.Windows.Forms.Label();
             this.txt_database_name = new System.Windows.Forms.TextBox();
             this.lbl_authentication = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.AuthenticaTypeBox = new System.Windows.Forms.ComboBox();
             this.lbl_user_name = new System.Windows.Forms.Label();
             this.txt_user_name = new System.Windows.Forms.TextBox();
             this.lbl_password = new System.Windows.Forms.Label();
@@ -82,14 +82,14 @@
             this.lbl_authentication.TabIndex = 5;
             this.lbl_authentication.Text = "Authentication";
             // 
-            // comboBox1
+            // AuthenticaTypeBox
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(40, 144);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(197, 21);
-            this.comboBox1.TabIndex = 6;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.AuthenticaTypeBox.FormattingEnabled = true;
+            this.AuthenticaTypeBox.Location = new System.Drawing.Point(40, 144);
+            this.AuthenticaTypeBox.Name = "AuthenticaTypeBox";
+            this.AuthenticaTypeBox.Size = new System.Drawing.Size(197, 21);
+            this.AuthenticaTypeBox.TabIndex = 6;
+            this.AuthenticaTypeBox.SelectedIndexChanged += new System.EventHandler(this.AuthenticaTypeBox_SelectedIndexChanged);
             // 
             // lbl_user_name
             // 
@@ -125,11 +125,11 @@
             // 
             // btn_test_connection
             // 
-            this.btn_test_connection.Location = new System.Drawing.Point(56, 285);
+            this.btn_test_connection.Location = new System.Drawing.Point(12, 285);
             this.btn_test_connection.Name = "btn_test_connection";
-            this.btn_test_connection.Size = new System.Drawing.Size(160, 35);
+            this.btn_test_connection.Size = new System.Drawing.Size(260, 35);
             this.btn_test_connection.TabIndex = 11;
-            this.btn_test_connection.Text = "Save & Test Connection";
+            this.btn_test_connection.Text = "Save and Test Connection";
             this.btn_test_connection.UseVisualStyleBackColor = true;
             this.btn_test_connection.Click += new System.EventHandler(this.btn_test_connection_Click);
             // 
@@ -141,7 +141,7 @@
             this.Controls.Add(this.txt_password);
             this.Controls.Add(this.lbl_user_name);
             this.Controls.Add(this.txt_user_name);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.AuthenticaTypeBox);
             this.Controls.Add(this.lbl_authentication);
             this.Controls.Add(this.lbl_database_name);
             this.Controls.Add(this.txt_database_name);
@@ -160,7 +160,7 @@
         private System.Windows.Forms.Label lbl_database_name;
         private System.Windows.Forms.TextBox txt_database_name;
         private System.Windows.Forms.Label lbl_authentication;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox AuthenticaTypeBox;
         private System.Windows.Forms.Label lbl_user_name;
         private System.Windows.Forms.TextBox txt_user_name;
         private System.Windows.Forms.Label lbl_password;

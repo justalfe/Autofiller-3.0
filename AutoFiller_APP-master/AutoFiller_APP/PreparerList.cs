@@ -56,6 +56,10 @@ namespace AutoFiller_APP
             {
                 _preparerData.Rows.Add(entry._name, entry._middleName, entry._lastName, entry._organization);
             }
+            foreach (var entry in Main._instance._preparers)
+            {
+                APIManager.SaveCivilSurgeonFromFile(entry._id, true);
+            }
         }
 
         private void _selectButton_Click(object sender, EventArgs e)

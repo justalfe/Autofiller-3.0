@@ -71,33 +71,36 @@ namespace AutoFiller_APP.Manager
         public static bool SavePatients(List<I693> items)
         {
             int resultCount = 0;
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 var patient = new Patient();
                 patient.UniqueId = item._uniqueId;
-                patient.I693Data= JsonConvert.SerializeObject(item);
+                patient.I693Data = JsonConvert.SerializeObject(item);
                 patient.CreatedDate = DateTime.Now;
-                resultCount+= SavePatientData(patient,item._uniqueId);
+                resultCount += SavePatientData(patient, item._uniqueId);
             }
 
-            if(resultCount > 0)
+            if (resultCount > 0)
                 return true;
-            
+
             return false;
         }
 
         private static int SavePatientData(Patient model, string uniqueId)
         {
             int resultCount = 0;
-            using (var db = new AutoDBContext())
-            {  
-                if (db.Patients.Select(p => p.UniqueId.Equals(uniqueId)) == null)
+            try
+            {
+                using (var db = new AutoDBContext())
                 {
-                    db.Patients.Add(model);
-                    resultCount = db.SaveChanges();
-                    db.SaveChanges();
+                    if (!db.Patients.Any(p => p.UniqueId.Equals(uniqueId)))
+                    {
+                        db.Patients.Add(model);
+                        resultCount = db.SaveChanges();
+                    }
                 }
             }
+            catch (Exception ex) { }
             return resultCount;
         }
 
@@ -132,7 +135,7 @@ namespace AutoFiller_APP.Manager
                             //SAVE IN DATABASE
                             using (var context = new AutoDBContext())
                             {
-                                if (context.CivilSurgeons.Select(cs => cs.FormId.Equals(latestObj._id)) == null)
+                                if (!context.CivilSurgeons.Any(cs => cs.FormId.Equals(latestObj._id)))
                                 {
                                     var sergeon = new CivilSurgeon();
                                     sergeon.FormId = latestObj._id;
@@ -141,10 +144,11 @@ namespace AutoFiller_APP.Manager
                                     context.CivilSurgeons.Add(sergeon);
                                     context.SaveChanges();
                                 }
-                                else {
+                                else
+                                {
 
                                     var sergeon = context.CivilSurgeons.Single(cs => cs.FormId.Equals(latestObj._id));
-                                    sergeon.FormData= JsonConvert.SerializeObject(latestObj);
+                                    sergeon.FormData = JsonConvert.SerializeObject(latestObj);
                                     sergeon.LastUpdated = DateTime.Now;
                                     context.SaveChanges();
                                 }
@@ -166,7 +170,7 @@ namespace AutoFiller_APP.Manager
                             //SAVE IN DATABASE
                             using (var context = new AutoDBContext())
                             {
-                                if (context.Preparers.Select(cs => cs.FormId.Equals(latestObj._id)) == null)
+                                if (!context.Preparers.Any(cs => cs.FormId.Equals(latestObj._id)))
                                 {
                                     var preparerObj = new Preparer();
                                     preparerObj.FormId = latestObj._id;
@@ -192,6 +196,98 @@ namespace AutoFiller_APP.Manager
 
                     return true;
                 }
+
+            }
+            catch
+            {
+            }
+            MessageBox.Show(Utility.Constants.UNABLE_TO_RETRIEVE_DATA);
+            return false;
+        }
+
+
+        public static bool SaveCivilSurgeonFromFile(string uniqId, bool isPreparer)
+        {
+            try
+            {
+                var fileData = APIManager.GetCivilSurgeonPreparer();
+
+                var collectionList = new List<CivilSurgeon_Preparer>();
+                //if preparer bit is false then adding surgeon else adding preparere
+                if (!isPreparer)
+                {
+                    if (fileData != null)
+                    {
+                        collectionList = JsonConvert.DeserializeObject<List<CivilSurgeon_Preparer>>(fileData.surgeon.ToString());
+                    }
+
+                    var latestObj = collectionList.Where(d => d._id == uniqId).FirstOrDefault();
+                    if (latestObj != null)
+                    {
+                        //SAVE IN DATABASE
+                        using (var context = new AutoDBContext())
+                        {
+                            if (!context.CivilSurgeons.Any(cs => cs.FormId.Equals(latestObj._id)))
+                            {
+                                var sergeon = new CivilSurgeon();
+                                sergeon.FormId = latestObj._id;
+                                sergeon.FormData = JsonConvert.SerializeObject(latestObj);
+                                sergeon.CreatedDate = DateTime.Now;
+                                context.CivilSurgeons.Add(sergeon);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+
+                                var sergeon = context.CivilSurgeons.Single(cs => cs.FormId.Equals(latestObj._id));
+                                sergeon.FormData = JsonConvert.SerializeObject(latestObj);
+                                sergeon.LastUpdated = DateTime.Now;
+                                context.SaveChanges();
+                            }
+                        }
+                        //END
+                    }
+                }
+                else
+                {
+
+                    if (fileData != null)
+                    {
+                        collectionList = JsonConvert.DeserializeObject<List<CivilSurgeon_Preparer>>(fileData.preparer.ToString());
+                    }
+
+                    var latestObj = collectionList.Where(d => d._id == uniqId).FirstOrDefault();
+                    if (latestObj != null)
+                    {
+                        //SAVE IN DATABASE
+                        using (var context = new AutoDBContext())
+                        {
+                            if (!context.Preparers.Any(cs => cs.FormId.Equals(latestObj._id)))
+                            {
+                                var preparerObj = new Preparer();
+                                preparerObj.FormId = latestObj._id;
+                                preparerObj.FormData = JsonConvert.SerializeObject(latestObj);
+                                preparerObj.CreatedDate = DateTime.Now;
+                                context.Preparers.Add(preparerObj);
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                var preparerObj = context.Preparers.Single(pr => pr.FormId.Equals(latestObj._id));
+                                preparerObj.FormData = JsonConvert.SerializeObject(latestObj);
+                                preparerObj.LastUpdated = DateTime.Now;
+                                context.SaveChanges();
+
+                            }
+                        }
+                        //END
+                    }
+                }
+
+
+
+                return true;
+
 
             }
             catch

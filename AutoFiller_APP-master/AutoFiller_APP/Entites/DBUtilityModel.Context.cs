@@ -9,22 +9,23 @@
 
 namespace AutoFiller_APP.Entites
 {
+    using AutoFiller_APP.Model;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class AutoDBContext : DbContext
     {
         public AutoDBContext()
-            : base("name=AutoDBContext")
+            : base(DbConnectionSetupModel.ConnectionString)
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<CivilSurgeon> CivilSurgeons { get; set; }
         public virtual DbSet<Preparer> Preparers { get; set; }
         public virtual DbSet<Patient> Patients { get; set; }

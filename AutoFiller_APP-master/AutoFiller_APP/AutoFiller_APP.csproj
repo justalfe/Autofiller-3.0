@@ -145,6 +145,8 @@
       <DependentUpon>ExportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\StatisticsManager.cs" />
+    <Compile Include="Model\DbConfigModel.cs" />
+    <Compile Include="Model\DbConnectionSetupModel.cs" />
     <Compile Include="Model\ExportModel.cs" />
     <Compile Include="PreparerForm.cs">
       <SubType>Form</SubType>
