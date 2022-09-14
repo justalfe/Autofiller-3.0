@@ -2,6 +2,7 @@
 using AutoFiller_API.Model;
 using AutoFiller_APP.Entites;
 using AutoFiller_APP.Model;
+using DocumentFormat.OpenXml.Bibliography;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Ocsp;
 using RestSharp;
@@ -65,6 +66,39 @@ namespace AutoFiller_APP.Manager
             }
             MessageBox.Show(Utility.Constants.UNABLE_TO_RETRIEVE_DATA);
             return new List<I693>();
+        }
+
+        public static bool SavePatients(List<I693> items)
+        {
+            int resultCount = 0;
+            foreach(var item in items)
+            {
+                var patient = new Patient();
+                patient.UniqueId = item._uniqueId;
+                patient.I693Data= JsonConvert.SerializeObject(item);
+                patient.CreatedDate = DateTime.Now;
+                resultCount+= SavePatientData(patient,item._uniqueId);
+            }
+
+            if(resultCount > 0)
+                return true;
+            
+            return false;
+        }
+
+        private static int SavePatientData(Patient model, string uniqueId)
+        {
+            int resultCount = 0;
+            using (var db = new AutoDBContext())
+            {  
+                if (db.Patients.Select(p => p.UniqueId.Equals(uniqueId)) == null)
+                {
+                    db.Patients.Add(model);
+                    resultCount = db.SaveChanges();
+                    db.SaveChanges();
+                }
+            }
+            return resultCount;
         }
 
         public static bool SaveCivilSurgeonPreparer(CivilSurgeon_Preparer surgeon, bool preparer)

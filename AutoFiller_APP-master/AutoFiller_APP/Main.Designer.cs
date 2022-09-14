@@ -40,6 +40,7 @@
             this._selectedPreparerPreview = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.ExportData = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._existingForms)).BeginInit();
             this.SuspendLayout();
             // 
@@ -169,11 +170,22 @@
             this.ExportData.UseVisualStyleBackColor = true;
             this.ExportData.Click += new System.EventHandler(this.ExportData_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(273, 13);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(112, 23);
+            this.button5.TabIndex = 51;
+            this.button5.Text = "Test Sql Connection";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(973, 499);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.ExportData);
             this.Controls.Add(this.button4);
             this.Controls.Add(this._selectedPreparerPreview);
@@ -210,6 +222,7 @@
         private System.Windows.Forms.Label _selectedPreparerPreview;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button ExportData;
+        private System.Windows.Forms.Button button5;
     }
 }
 

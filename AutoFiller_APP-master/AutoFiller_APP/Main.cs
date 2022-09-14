@@ -49,6 +49,11 @@ namespace AutoFiller_APP
             //    false, "language", "123", "1234", "email@email.com", "signature", DateTime.UtcNow, "iLastname", "iName", "iOrg", "iAddress", I693.AddressType.FLR, "iNumber",
             //    "iCity", I693.States.AZ, "57113",
             //    "iProv", "iPC", "iCountry", "12345", "123456", "iMail", "iLanguage", "isignature", DateTime.UtcNow, "iIDType", "iID", DateTime.UtcNow));
+            
+            if (_forms.Count > 0) {
+                APIManager.SavePatients(_forms);
+            }
+            
             DisplayForms();
         }
 
@@ -151,6 +156,12 @@ namespace AutoFiller_APP
             var exportsExcel = new ExportForm();
             exportsExcel.Show();
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var dbConfigForm = new DbConfigForm();
+            dbConfigForm.Show();
         }
     }
 }

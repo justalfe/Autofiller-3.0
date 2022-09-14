@@ -99,8 +99,7 @@ namespace AutoFiller_APP.Manager
 
                     pdfFormFields.SetField("form1[0].#subform[2].Pt3Line3_StreetNumberName[0]", source._interpreterStreetAddress.ToUpper());
 
-                    //form1[0].#subform[2].Pt3Line3_Unit[2]
-                    switch (source._interpreterAddressType)
+                   switch (source._interpreterAddressType)
                     {
                         case I693.AddressType.APT:
                             pdfFormFields.SetField("form1[0].#subform[2].Pt3Line3_Unit[2]", " APT ");
@@ -140,7 +139,7 @@ namespace AutoFiller_APP.Manager
                     pdfFormFields.SetField("form1[0].#subform[3].Pt6Line1_MiddleName[0]", surgeon._middleName.ToUpper());
                     pdfFormFields.SetField("form1[0].#subform[3].Pt6Line2_MedPracticeName[0]", surgeon._organization.ToUpper());
                     pdfFormFields.SetField("form1[0].#subform[3].Pt6Line3_State[0]", surgeon._state.ToString());
-                    //form1[0].#subform[5].Pt6Line3_Unit[2]
+
                     switch (surgeon._addressType)
                     {
                         case I693.AddressType.APT:
@@ -234,29 +233,6 @@ namespace AutoFiller_APP.Manager
                 pdfStamper.FormFlattening = true;
                 pdfStamper.Close();
 
-
-                //saving pdf data into table
-
-                var patient = new Patient();
-
-                if (source != null)
-                {
-                    patient.Source = JsonConvert.SerializeObject(source);
-                }
-                if (surgeon != null)
-                {
-                    patient.Surgeon = JsonConvert.SerializeObject(surgeon);
-                }
-                if (preparer != null)
-                {
-                    patient.Preparer = JsonConvert.SerializeObject(preparer);
-                }
-                patient.FilePath = _destinationFile;
-                patient.CreatedDate = DateTime.Now;
-                patient.UniqueId = source._uniqueId;                
-
-                SavePatientData(patient);
-
                 System.Diagnostics.Process.Start(_destinationFile);
             }
             catch (Exception e)
@@ -270,15 +246,6 @@ namespace AutoFiller_APP.Manager
             var entries = allKeys.Where(x => x.Contains(key));
             foreach (var entry in entries)
                 fields.SetField(entry, content);
-        }
-
-        private static void SavePatientData(Patient model)
-        {
-            using (var db = new AutoDBContext())
-            {
-                db.Patients.Add(model);
-                db.SaveChanges();
-            }
         }
 
         public static string GetDateStringFormat(DateTime t)

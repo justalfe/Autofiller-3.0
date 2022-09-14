@@ -132,6 +132,12 @@
     <Compile Include="Entites\Preparer.cs">
       <DependentUpon>DBUtilityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DbConfigForm.Designer.cs">
+      <DependentUpon>DbConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +198,9 @@
       <DependentUpon>StatisticsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utility.cs" />
+    <EmbeddedResource Include="DbConfigForm.resx">
+      <DependentUpon>DbConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExportForm.resx">
       <DependentUpon>ExportForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -230,6 +239,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBUtilityModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="DbManagment\DbConfig.json" />
     <None Include="Entites\DBUtilityModel.edmx.diagram">
       <DependentUpon>DBUtilityModel.edmx</DependentUpon>
     </None>
@@ -281,6 +291,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

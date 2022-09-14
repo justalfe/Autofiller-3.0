@@ -209,7 +209,7 @@ namespace AutoFiller_APP
         {
             using (var db = new AutoDBContext())
             {
-                var patientModel = db.Patients.AsEnumerable().Select(d => MapPatientDataSet(d.Source, d.Surgeon, d.Preparer)).ToList();
+                var patientModel = db.Patients.AsEnumerable().Select(d => MapPatientDataSet(d.I693Data)).ToList();
                 if (patientModel.Count > 0)
                 {
                     try
@@ -220,23 +220,13 @@ namespace AutoFiller_APP
                             if (sfd.ShowDialog() == DialogResult.OK)
                             {
                                 var properties = typeof(PatientExportModel).GetProperties();
-
                                 DataTable dt = new DataTable("PatientDataTable");
-
-                                /*foreach (PropertyInfo p in properties)
-                                {
-                                    dt.Columns.Add(p.Name, p.PropertyType);
-                                }*/
-
-                                dt.Columns.AddRange(new DataColumn[46] {
-                                            new DataColumn("UniqueId"),
-                                            new DataColumn("Surgeon Full Name"),
-                                            new DataColumn("Preparer Full Name"),
+                                dt.Columns.AddRange(new DataColumn[42] {
+                                            new DataColumn("UniqueId"),                                          
                                             new DataColumn("Applicant First Name"),
                                             new DataColumn("Applicant Middle Name"),
-                                            new DataColumn("Applicant Last Name"),                                            
+                                            new DataColumn("Applicant Last Name"),
                                             new DataColumn("Applicant Address Type"),
-                                            new DataColumn("Applicant Address Number"),
                                             new DataColumn("Applicant Street"),
                                             new DataColumn("Applicant City"),
                                             new DataColumn("Applicant State"),
@@ -244,7 +234,7 @@ namespace AutoFiller_APP
                                             new DataColumn("Applicant Birth"),
                                             new DataColumn("Applicant Birth City"),
                                             new DataColumn("Applicant Birth Country"),
-                                            new DataColumn("Applicant Sex"),                                           
+                                            new DataColumn("Applicant Sex"),
                                             new DataColumn("Applicant Alien Registration Number"),
                                             new DataColumn("Applicant Uscis"),
                                             new DataColumn("Applicant Statement 1aORb"),
@@ -258,7 +248,7 @@ namespace AutoFiller_APP
                                             new DataColumn("Applicant Identification Number"),
                                             new DataColumn("Interpreter First Name"),
                                             new DataColumn("Interpreter Last Name"),
-                                            new DataColumn("Interpreter Organization"),                                            
+                                            new DataColumn("Interpreter Organization"),
                                             new DataColumn("Interpreter Street Address"),
                                             new DataColumn("Interpreter Address Type"),
                                             new DataColumn("Interpreter Address Number"),
@@ -273,26 +263,20 @@ namespace AutoFiller_APP
                                             new DataColumn("Interpreter Email"),
                                             new DataColumn("Interpreter Language"),
                                             new DataColumn("Interpreter Signature"),
-                                            new DataColumn("Interpreter Signature Date"),                                            
-                                            new DataColumn("Exported PDF Date")
-
-                         }); 
-
+                                            new DataColumn("Interpreter Signature Date")    
+                         });
 
                                 foreach (var item in patientModel)
                                 {
-                                    dt.Rows.Add(item._uniqueId,
-                                        item.surgeon_fullname,
-                                        item.preparer_fullname,
+                                    dt.Rows.Add(item._uniqueId,                                      
                                         item._firstname,
                                         item._middlename,
                                         item._lastname,
-                                        item._addressType,
-                                        item._addressNumber,
+                                        item._addressType,                                        
                                         item._addressStreet,
                                         item._addressCity,
                                         item._addressState,
-                                        item._addressZip,                                        
+                                        item._addressZip,
                                         item._birth,
                                         item._birthCity,
                                         item._birthCountry,
@@ -325,8 +309,7 @@ namespace AutoFiller_APP
                                         item._interpreterEmail,
                                         item._interpreterLanguage,
                                         item._interpreterSignature,
-                                        item._interpreterSignatureDate,                                        
-                                        item._dateOfCreation
+                                        item._interpreterSignatureDate                                       
                                         );
                                 }
 
@@ -337,7 +320,6 @@ namespace AutoFiller_APP
                                     workbook.SaveAs(sfd.FileName);
                                     MessageBox.Show("Patients exported successfully.");
                                 }
-
                             }
                         }
                     }
@@ -350,22 +332,15 @@ namespace AutoFiller_APP
             }
         }
 
-        private PatientExportModel MapPatientDataSet(string source, string surgeon, string preparer)
+        private PatientExportModel MapPatientDataSet(string source)
         {
             if (!string.IsNullOrEmpty(source))
             {
-                var sourceModel = JsonConvert.DeserializeObject<PatientExportModel>(source);
-                var surgeonModel = string.IsNullOrEmpty(surgeon) ? new CivilSurgeonsExportModel() : JsonConvert.DeserializeObject<CivilSurgeonsExportModel>(surgeon);
-                var prepnModel = string.IsNullOrEmpty(preparer) ? new PreparerExportModel() : JsonConvert.DeserializeObject<PreparerExportModel>(preparer);
-                //set surgeon full name and prep full name
-                sourceModel.surgeon_fullname = $"{surgeonModel._name} {surgeonModel._middleName} {surgeonModel._lastName}";
-                sourceModel.preparer_fullname = $"{prepnModel._name} {prepnModel._middleName} {prepnModel._lastName}";
+                var sourceModel = JsonConvert.DeserializeObject<PatientExportModel>(source);             
                 return sourceModel;
             }
-            else
-            {
-                return new PatientExportModel();
-            }
+            
+            return new PatientExportModel();
         }
     }
 }

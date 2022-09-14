@@ -16,10 +16,7 @@ namespace AutoFiller_APP.Entites
     {
         public long Id { get; set; }
         public string UniqueId { get; set; }
-        public string Source { get; set; }
-        public string FilePath { get; set; }
-        public string Surgeon { get; set; }
-        public string Preparer { get; set; }
+        public string I693Data { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
     }
 }
