@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -15,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
 
@@ -67,9 +69,17 @@ namespace AutoFiller_APP
         {
             try
             {
-                var rootPath = System.Windows.Forms.Application.StartupPath.Replace("\\bin", "").Replace("\\Debug", "");
+                var rootPath = System.Windows.Forms.Application.StartupPath;
+
+
                 var filetPath = rootPath + @"\DbManagment\DbConfig.json";
-                var content = File.ReadAllText(filetPath);
+
+                var content = "";
+                using (StreamReader reader = new StreamReader(new FileStream(filetPath, FileMode.Open)))
+                {
+                    content = reader.ReadToEnd();
+                }
+
                 var model = JsonConvert.DeserializeObject<DbConfigModel>(content);
                 if (model != null)
                 {
@@ -82,7 +92,7 @@ namespace AutoFiller_APP
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Problem occured to read server configurations");
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -168,9 +178,15 @@ namespace AutoFiller_APP
 
             var content = JsonConvert.SerializeObject(model);
 
-            var rootPath = System.Windows.Forms.Application.StartupPath.Replace("\\bin", "").Replace("\\Debug", "");
-            var filetPath = rootPath + @"\DbManagment\DbConfig.json";
-            File.WriteAllText(filetPath, content);
+            var startupPath = System.Windows.Forms.Application.StartupPath;
+
+            var filetPath = startupPath + @"\DbManagment\DbConfig.json";
+
+            using (StreamWriter reader = new StreamWriter(new FileStream(filetPath, FileMode.Open)))
+            {
+                reader.Write(content);
+            }
+
             return true;
         }
         private void TestConnection()
@@ -197,5 +213,6 @@ namespace AutoFiller_APP
 
             }
         }
+
     }
 }

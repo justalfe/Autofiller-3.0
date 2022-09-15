@@ -5,8 +5,10 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -26,6 +28,7 @@ namespace AutoFiller_APP
         public Main()
         {
             InitializeComponent();
+            CreatFile();
             _instance = this;
             Utility.LoadServer();
             LoadCSP();
@@ -37,6 +40,42 @@ namespace AutoFiller_APP
             _existingForms.Columns.Add("Date", "Date");
             _existingForms.Columns.Add("ID", "ID");
             _existingForms.Columns["ID"].Visible = false;
+
+        }
+
+        public void CreatFile()
+        {
+            try
+            {
+                var path = System.Windows.Forms.Application.StartupPath;
+                var rootPath = path + @"\DbManagment";
+
+                if (!Directory.Exists(rootPath))
+                {
+                    Directory.CreateDirectory(rootPath);
+                }
+
+                rootPath = rootPath + @"\DbConfig.json";
+
+
+                if (!File.Exists(rootPath))
+                {
+                    File.Create(rootPath).Close();
+                    string data = "{\"server_name\":\"2124OLDFIELD\\\\SQLEXPRESS\",\"database_name\":\"AutoFiller_APP_DB\",\"authentication_mode\":\"Windows\",\"user_id\":null,\"password\":null}";
+
+
+                    using (StreamWriter writetext = new StreamWriter(rootPath))
+                    {
+                        writetext.Write(data);
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
 
         }
 

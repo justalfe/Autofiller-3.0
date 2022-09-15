@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity.Core.EntityClient;
 using System.Data.SqlClient;
 using System.IO;
@@ -23,10 +24,16 @@ namespace AutoFiller_APP.Model
 
         private static string BuildConnectionString()
         {
+            var rootPath = System.Windows.Forms.Application.StartupPath;
 
-            var rootPath = System.Windows.Forms.Application.StartupPath.Replace("\\bin", "").Replace("\\Debug", "");
+
             var filetPath = rootPath + @"\DbManagment\DbConfig.json";
-            var content = File.ReadAllText(filetPath);
+            var content = "";
+            using (StreamReader reader = new StreamReader(new FileStream(filetPath, FileMode.Open)))
+            {
+                content = reader.ReadToEnd();
+            }
+
             var model = JsonConvert.DeserializeObject<DbConfigModel>(content);
 
 
