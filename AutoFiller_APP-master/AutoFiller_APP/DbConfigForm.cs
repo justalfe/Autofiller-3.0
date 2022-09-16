@@ -49,6 +49,9 @@ namespace AutoFiller_APP
 
         void IsAuthencationMode(string mode)
         {
+            txt_user_name.Text = String.Empty;
+            txt_password.Text = String.Empty;
+
             if (mode == "Windows")
             {
                 lbl_user_name.Visible = false;
@@ -175,6 +178,11 @@ namespace AutoFiller_APP
                 model.user_id = txt_user_name.Text;
                 model.password = txt_password.Text;
             }
+            else
+            {
+                model.user_id = "";
+                model.password = "";
+            }
 
             var content = JsonConvert.SerializeObject(model);
 
@@ -182,9 +190,15 @@ namespace AutoFiller_APP
 
             var filetPath = startupPath + @"\DbManagment\DbConfig.json";
 
+            using (StreamWriter reader = new StreamWriter(new FileStream(filetPath, FileMode.Truncate)))
+            {
+            }
             using (StreamWriter reader = new StreamWriter(new FileStream(filetPath, FileMode.Open)))
             {
+                reader.AutoFlush = true;
                 reader.Write(content);
+                reader.Flush();
+                reader.Dispose();
             }
 
             return true;

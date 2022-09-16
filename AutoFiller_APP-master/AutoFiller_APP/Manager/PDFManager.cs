@@ -15,14 +15,14 @@ namespace AutoFiller_APP.Manager
     class PDFManager
     {
         //public const string SOURCE_PDF_FILE = "./resources/i693d.pdf";
-        public const string SOURCE_PDF_FILE = "./resources/i-693.pdf";
+        //public const string SOURCE_PDF_FILE = "./resources/i-693.pdf";
         //public const string OUTPUT_PDF_FILE = "./out.pdf";
         public static void ExportPDF(I693 source, string _destinationFile, CivilSurgeon_Preparer surgeon, CivilSurgeon_Preparer preparer)
         {
             try
             {
-                //string[] checkboxstates = pdfFormFields.GetAppearanceStates("form1[0].#subform[0].Pt1Line2_Unit[2]");
-                PdfReader pdfReader = new PdfReader(SOURCE_PDF_FILE);
+                var path = System.Windows.Forms.Application.StartupPath + @"\resources\i-693.pdf";
+                PdfReader pdfReader = new PdfReader(path);
                 PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(_destinationFile, FileMode.Create));
                 AcroFields pdfFormFields = pdfStamper.AcroFields;
 
@@ -99,7 +99,7 @@ namespace AutoFiller_APP.Manager
 
                     pdfFormFields.SetField("form1[0].#subform[2].Pt3Line3_StreetNumberName[0]", source._interpreterStreetAddress.ToUpper());
 
-                   switch (source._interpreterAddressType)
+                    switch (source._interpreterAddressType)
                     {
                         case I693.AddressType.APT:
                             pdfFormFields.SetField("form1[0].#subform[2].Pt3Line3_Unit[2]", " APT ");

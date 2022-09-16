@@ -17,7 +17,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\justa\Desktop\app_pub_test\</PublishUrl>
+    <PublishUrl>C:\Users\shuja\OneDrive\Desktop\pub\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -27,8 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>24</ApplicationRevision>
+    <ApplicationRevision>32</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -270,7 +269,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBUtilityModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="AutoFiller_APP_TemporaryKey.pfx" />
     <None Include="DbManagment\DbConfig.json" />
     <None Include="Entites\DBUtilityModel.edmx.diagram">
       <DependentUpon>DBUtilityModel.edmx</DependentUpon>

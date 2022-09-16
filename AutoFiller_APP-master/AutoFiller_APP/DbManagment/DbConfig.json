@@ -1,1 +1,7 @@
-{"server_name":"DESKTOP-UCEGKTB\\SQLEXPRESS","database_name":"AutoFiller_APP_DB","authentication_mode":"Windows","user_id":null,"password":null}
+{
+  "server_name": "2124OLDFIELD\\SQLEXPRESS",
+  "database_name": "AutoFiller_APP_DB",
+  "authentication_mode": "Windows",
+  "user_id": null,
+  "password": null
+}

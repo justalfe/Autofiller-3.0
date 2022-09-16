@@ -1,5 +1,7 @@
 ﻿using AutoFiller_APP.Manager;
 using AutoFiller_APP.Model;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -28,7 +30,8 @@ namespace AutoFiller_APP
         public Main()
         {
             InitializeComponent();
-            CreatFile();
+            CreatFileDbConfigFile();
+            CreatFilePdfResource();
             _instance = this;
             Utility.LoadServer();
             LoadCSP();
@@ -43,7 +46,7 @@ namespace AutoFiller_APP
 
         }
 
-        public void CreatFile()
+        public void CreatFileDbConfigFile()
         {
             try
             {
@@ -79,6 +82,31 @@ namespace AutoFiller_APP
 
         }
 
+        public void CreatFilePdfResource()
+        {
+            try
+            {
+                var path = System.Windows.Forms.Application.StartupPath;
+                var rootPath = path + @"\resources";
+
+                if (!Directory.Exists(rootPath))
+                {
+                    Directory.CreateDirectory(rootPath);
+                }
+
+                //Copy all the files & Replaces any files with the same name
+                foreach (string newPath in Directory.GetFiles(ConfigurationManager.AppSettings["resources"].ToString(), "*.*", SearchOption.AllDirectories))
+                {
+                    var pathTo = rootPath + @"\" + Path.GetFileName(newPath);
+                    File.Copy(newPath, pathTo, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+        }
         private void _refresh_Click(object sender, EventArgs e)
         {
             _forms = APIManager.GetForm();
@@ -88,11 +116,12 @@ namespace AutoFiller_APP
             //    false, "language", "123", "1234", "email@email.com", "signature", DateTime.UtcNow, "iLastname", "iName", "iOrg", "iAddress", I693.AddressType.FLR, "iNumber",
             //    "iCity", I693.States.AZ, "57113",
             //    "iProv", "iPC", "iCountry", "12345", "123456", "iMail", "iLanguage", "isignature", DateTime.UtcNow, "iIDType", "iID", DateTime.UtcNow));
-            
-            if (_forms.Count > 0) {
+
+            if (_forms.Count > 0)
+            {
                 APIManager.SavePatients(_forms);
             }
-            
+
             DisplayForms();
         }
 
@@ -123,7 +152,7 @@ namespace AutoFiller_APP
         {
             if (e.RowIndex == -1)
                 return;
-            var formWindow = new I693Form(_forms.Where(x=>x._uniqueId == (string)_existingForms.Rows[e.RowIndex].Cells["ID"].Value).FirstOrDefault());
+            var formWindow = new I693Form(_forms.Where(x => x._uniqueId == (string)_existingForms.Rows[e.RowIndex].Cells["ID"].Value).FirstOrDefault());
             formWindow.Show();
         }
 
@@ -173,7 +202,7 @@ namespace AutoFiller_APP
         public void RefreshSelectedSurgeonPreparer()
         {
             if (_selectedSurgeon != null)
-                _selectedCivilSurgeonPreview.Text = "Selected: "+_selectedSurgeon._name+" " + _selectedSurgeon._lastName + " " + _selectedSurgeon._organization;
+                _selectedCivilSurgeonPreview.Text = "Selected: " + _selectedSurgeon._name + " " + _selectedSurgeon._lastName + " " + _selectedSurgeon._organization;
             else
                 _selectedCivilSurgeonPreview.Text = "Selected: None";
 
