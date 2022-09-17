@@ -30,8 +30,6 @@ namespace AutoFiller_APP
         public Main()
         {
             InitializeComponent();
-            CreatFileDbConfigFile();
-            CreatFilePdfResource();
             _instance = this;
             Utility.LoadServer();
             LoadCSP();
@@ -46,67 +44,6 @@ namespace AutoFiller_APP
 
         }
 
-        public void CreatFileDbConfigFile()
-        {
-            try
-            {
-                var path = System.Windows.Forms.Application.StartupPath;
-                var rootPath = path + @"\DbManagment";
-
-                if (!Directory.Exists(rootPath))
-                {
-                    Directory.CreateDirectory(rootPath);
-                }
-
-                rootPath = rootPath + @"\DbConfig.json";
-
-
-                if (!File.Exists(rootPath))
-                {
-                    File.Create(rootPath).Close();
-                    string data = "{\"server_name\":\"2124OLDFIELD\\\\SQLEXPRESS\",\"database_name\":\"AutoFiller_APP_DB\",\"authentication_mode\":\"Windows\",\"user_id\":null,\"password\":null}";
-
-
-                    using (StreamWriter writetext = new StreamWriter(rootPath))
-                    {
-                        writetext.Write(data);
-                    }
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-        }
-
-        public void CreatFilePdfResource()
-        {
-            try
-            {
-                var path = System.Windows.Forms.Application.StartupPath;
-                var rootPath = path + @"\resources";
-
-                if (!Directory.Exists(rootPath))
-                {
-                    Directory.CreateDirectory(rootPath);
-                }
-
-                //Copy all the files & Replaces any files with the same name
-                foreach (string newPath in Directory.GetFiles(ConfigurationManager.AppSettings["resources"].ToString(), "*.*", SearchOption.AllDirectories))
-                {
-                    var pathTo = rootPath + @"\" + Path.GetFileName(newPath);
-                    File.Copy(newPath, pathTo, true);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
-        }
         private void _refresh_Click(object sender, EventArgs e)
         {
             _forms = APIManager.GetForm();
