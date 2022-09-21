@@ -106,7 +106,7 @@ namespace AutoFiller_APP
         {
             if (SaveSurgeon())
             {
-                Main._instance.LoadCSP();
+                //Main._instance.LoadCSP();
                 CivilSurgeonList._instance.RefreshTable();
                 this.Close();
             }

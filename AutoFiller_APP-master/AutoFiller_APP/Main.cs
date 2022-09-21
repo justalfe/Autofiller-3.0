@@ -23,19 +23,14 @@ namespace AutoFiller_APP
     public partial class Main : Form
     {
         public static Main _instance;
-        public List<I693> _forms = new List<I693>();
-        public List<CivilSurgeon_Preparer> _surgeons = new List<CivilSurgeon_Preparer>();
-        //public List<CivilSurgeon> _surgeons = new List<CivilSurgeon>();
-        public List<CivilSurgeon_Preparer> _preparers = new List<CivilSurgeon_Preparer>();
-        //public List<Preparer> _preparers = new List<Preparer>();
+        public List<I693> _forms = new List<I693>();                
         public CivilSurgeon_Preparer _selectedSurgeon = null;
         public CivilSurgeon_Preparer _selectedPreparer = null;
         public Main()
         {
             InitializeComponent();
             _instance = this;
-            Utility.LoadServer();
-            LoadCSP();
+            Utility.LoadServer();          
             RefreshSelectedSurgeonPreparer();
             _existingForms.Columns.Add("Last Name", "Last Name");
             _existingForms.Columns.Add("First Name", "First Name");
@@ -44,19 +39,12 @@ namespace AutoFiller_APP
             _existingForms.Columns.Add("Date", "Date");
             _existingForms.Columns.Add("ID", "ID");
             _existingForms.Columns["ID"].Visible = false;
-
         }
 
         private void _refresh_Click(object sender, EventArgs e)
         {
             _forms = APIManager.GetForm();
-            LoadCSP();
-            //_forms.Add(new I693("id", "lastname", "firstname", "middlename", "address", I693.AddressType.FLR, "123", "city", I693.States.AZ, "57112", I693.Sex.F, DateTime.UtcNow.AddYears(-2), "bCity",
-            //    "bCountry", "890987656", "8767889098",
-            //    false, "language", "123", "1234", "email@email.com", "signature", DateTime.UtcNow, "iLastname", "iName", "iOrg", "iAddress", I693.AddressType.FLR, "iNumber",
-            //    "iCity", I693.States.AZ, "57113",
-            //    "iProv", "iPC", "iCountry", "12345", "123456", "iMail", "iLanguage", "isignature", DateTime.UtcNow, "iIDType", "iID", DateTime.UtcNow));
-
+            
             if (_forms.Count > 0)
             {
                 APIManager.SavePatients(_forms);
@@ -128,24 +116,6 @@ namespace AutoFiller_APP
             var preparerList = new PreparerList();
             preparerList.Show();
         }
-
-        public void LoadCSP()
-        {
-            var cspData = APIManager.GetCivilSurgeonPreparer();
-            if (cspData != null)
-            {
-                _surgeons = JsonConvert.DeserializeObject<List<CivilSurgeon_Preparer>>(cspData.surgeon.ToString());
-                _preparers = JsonConvert.DeserializeObject<List<CivilSurgeon_Preparer>>(cspData.preparer.ToString());
-            }
-
-
-            /*using (var context = new AutoDBContext())
-            {
-                _surgeons = context.CivilSurgeons;
-                _preparers = context.Preparers;
-            }*/
-        }
-
         public void RefreshSelectedSurgeonPreparer()
         {
             if (_selectedSurgeon != null)
@@ -167,7 +137,6 @@ namespace AutoFiller_APP
 
         private void ExportData_Click(object sender, EventArgs e)
         {
-            //CODE TO LUNCH A NEW FORM FOR EXPORTING DATA IN EXCEL FORMAT
             var exportsExcel = new ExportForm();
             exportsExcel.Show();
 

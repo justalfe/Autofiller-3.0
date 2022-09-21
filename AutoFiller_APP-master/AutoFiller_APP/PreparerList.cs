@@ -21,7 +21,8 @@ namespace AutoFiller_APP
         {
             InitializeComponent();
             _instance = this;
-            _preparerData.Columns.Add("Unique Id", "Unique Id");
+            _preparerData.Columns.Add("UniqueId", "Unique Id");
+            _preparerData.Columns["UniqueId"].Visible = false;
             _preparerData.Columns.Add("First Name", "First Name");
             _preparerData.Columns.Add("Middle Name", "Middle Name");
             _preparerData.Columns.Add("Last Name", "Last Name");
@@ -110,7 +111,7 @@ namespace AutoFiller_APP
 
         }
 
-        public void RefreshTableOld()
+      /*  public void RefreshTableOld()
         {
             _preparerData.Rows.Clear();
             foreach (var entry in Main._instance._preparers)
@@ -121,7 +122,7 @@ namespace AutoFiller_APP
             {
                 APIManager.SaveCivilSurgeonFromFile(entry._id, true);
             }
-        }
+        }*/
 
         private void _selectButton_Click(object sender, EventArgs e)
         {

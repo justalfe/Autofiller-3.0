@@ -23,7 +23,8 @@ namespace AutoFiller_APP
         {
             InitializeComponent();
             _instance = this;
-            _surgeonData.Columns.Add("Unique Id", "Unique Id");
+            _surgeonData.Columns.Add("UniqueId", "Unique Id");
+            _surgeonData.Columns["UniqueId"].Visible = false;
             _surgeonData.Columns.Add("First Name", "First Name");
             _surgeonData.Columns.Add("Middle Name", "Middle Name");
             _surgeonData.Columns.Add("Last Name", "Last Name");
@@ -44,7 +45,6 @@ namespace AutoFiller_APP
                 return;
 
             var selectedId = _surgeonData.SelectedCells[0].Value.ToString();
-
 
             using (var db = new AutoDBContext())
             {
@@ -78,28 +78,10 @@ namespace AutoFiller_APP
                     RefreshTable();
                 }
             }
-            //var ok = APIManager.DeleteCivilSurgeonPreparer(Main._instance._surgeons[_surgeonData.SelectedCells[0].RowIndex]._id, false);
-            //if (ok)
-            //{
-            //    Main._instance.LoadCSP();
-            //    RefreshTable();
-            //}
         }
 
         public void RefreshTable()
         {
-            /* _surgeonData.Rows.Clear();
-             foreach (var entry in Main._instance._surgeons)
-             {
-                 _surgeonData.Rows.Add(entry._name, entry._middleName, entry._lastName, entry._organization);
-             }
-
-             foreach (var entry in Main._instance._surgeons)
-             {
-                 APIManager.SaveCivilSurgeonFromFile(entry._id, false);
-             }*/
-
-
             _surgeonData.Rows.Clear();
             using (var context = new AutoDBContext())
             {

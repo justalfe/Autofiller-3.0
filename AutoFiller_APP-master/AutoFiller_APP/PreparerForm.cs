@@ -58,13 +58,13 @@ namespace AutoFiller_APP
 
         }
 
-        public bool SavePreparerOld()
+      /*  public bool SavePreparerOld()
         {
             var ok = APIManager.SaveCivilSurgeonPreparer(new CivilSurgeon_Preparer(_id, _surgeonLastname.Text, _surgeonFirstname.Text, _surgeonMiddlename.Text, _surgeonOrg.Text, "", I693.AddressType.NONE, "",
                 "", I693.States.NONE, "", _province.Text, _postalCode.Text, _country.Text, _mailingAddress.Text, (I693.AddressType)_mailingAddressSubType.SelectedIndex, _mailingAddressNumber.Text, _mailingAddressCity.Text, (I693.States)_mailingAddressState.SelectedIndex,
                 _mailingZip.Text, _surgeonPhone.Text, _surgeonMobilePhone.Text, _surgeonEmail.Text, _radioButtonA.Checked, _radioButtonExtends.Checked), true);
             return ok;
-        }
+        }*/
 
         public bool SavePreparer()
         {

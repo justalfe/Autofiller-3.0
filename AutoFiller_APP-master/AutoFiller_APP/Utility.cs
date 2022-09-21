@@ -11,8 +11,7 @@ namespace AutoFiller_APP
 {
     class Utility
     {
-        public const string SETTINGS_FILENAME = "./webSettings.txt";
-        public const string SURGEON_FILENAME = "./surgeonSettings.txt";
+        public const string SETTINGS_FILENAME = "./webSettings.txt";        
         public const string PRIVATE_KEY = "";
         public static string SERVER_IP = "localhost";
         public static string SERVER_PORT = "57112";
