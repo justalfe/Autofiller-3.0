@@ -230,7 +230,7 @@ namespace AutoFiller_APP.Manager
                             pdfFormFields.SetField("form1[0].#subform[3].Part9_Item7b_NotExtend[0]", "N");
                     }
                 }
-                pdfStamper.FormFlattening = true;
+                pdfStamper.FormFlattening = false;
                 pdfStamper.Close();
 
                 System.Diagnostics.Process.Start(_destinationFile);

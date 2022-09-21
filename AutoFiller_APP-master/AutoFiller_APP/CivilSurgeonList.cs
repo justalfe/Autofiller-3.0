@@ -1,4 +1,8 @@
-﻿using AutoFiller_APP.Manager;
+﻿using AutoFiller_APP.Entites;
+using AutoFiller_APP.Manager;
+using AutoFiller_APP.Model;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace AutoFiller_APP
@@ -18,6 +23,7 @@ namespace AutoFiller_APP
         {
             InitializeComponent();
             _instance = this;
+            _surgeonData.Columns.Add("Unique Id", "Unique Id");
             _surgeonData.Columns.Add("First Name", "First Name");
             _surgeonData.Columns.Add("Middle Name", "Middle Name");
             _surgeonData.Columns.Add("Last Name", "Last Name");
@@ -36,8 +42,21 @@ namespace AutoFiller_APP
         {
             if (_surgeonData.SelectedCells.Count == 0)
                 return;
-            var csf = new CivilSurgeonForm(Main._instance._surgeons[_surgeonData.SelectedCells[0].RowIndex]);
-            csf.Visible = true;
+
+            var selectedId = _surgeonData.SelectedCells[0].Value.ToString();
+
+
+            using (var db = new AutoDBContext())
+            {
+                var data = db.CivilSurgeons.Where(d => d.FormId == selectedId).FirstOrDefault();
+                if (data != null)
+                {
+                    var civilData = JsonConvert.DeserializeObject<CivilSurgeon_Preparer>(data.FormData);
+
+                    var csf = new CivilSurgeonForm(civilData);
+                    csf.Visible = true;
+                }
+            }
         }
 
         private void _deleteButton_Click(object sender, EventArgs e)
@@ -47,25 +66,50 @@ namespace AutoFiller_APP
                 MessageBox.Show(Utility.Constants.NO_ENTRY_SELECTED);
                 return;
             }
-            var ok = APIManager.DeleteCivilSurgeonPreparer(Main._instance._surgeons[_surgeonData.SelectedCells[0].RowIndex]._id, false);
-            if (ok)
+
+            var _id = _surgeonData.SelectedCells[0].Value.ToString();
+            using (var db = new AutoDBContext())
             {
-                Main._instance.LoadCSP();
-                RefreshTable();
+                var data = db.CivilSurgeons.Where(d => d.FormId == _id).FirstOrDefault();
+                if (data != null)
+                {
+                    db.CivilSurgeons.Remove(data);
+                    db.SaveChanges();
+                    RefreshTable();
+                }
             }
+            //var ok = APIManager.DeleteCivilSurgeonPreparer(Main._instance._surgeons[_surgeonData.SelectedCells[0].RowIndex]._id, false);
+            //if (ok)
+            //{
+            //    Main._instance.LoadCSP();
+            //    RefreshTable();
+            //}
         }
 
         public void RefreshTable()
         {
-            _surgeonData.Rows.Clear();
-            foreach (var entry in Main._instance._surgeons)
-            {
-                _surgeonData.Rows.Add(entry._name, entry._middleName, entry._lastName, entry._organization);
-            }
+            /* _surgeonData.Rows.Clear();
+             foreach (var entry in Main._instance._surgeons)
+             {
+                 _surgeonData.Rows.Add(entry._name, entry._middleName, entry._lastName, entry._organization);
+             }
 
-            foreach (var entry in Main._instance._surgeons)
+             foreach (var entry in Main._instance._surgeons)
+             {
+                 APIManager.SaveCivilSurgeonFromFile(entry._id, false);
+             }*/
+
+
+            _surgeonData.Rows.Clear();
+            using (var context = new AutoDBContext())
             {
-                APIManager.SaveCivilSurgeonFromFile(entry._id, false);
+                var sergeonsList = context.CivilSurgeons;
+                foreach (CivilSurgeon sergeon in sergeonsList)
+                {
+                    CivilSurgeonsExportModel model = JsonConvert.DeserializeObject<CivilSurgeonsExportModel>(sergeon.FormData);
+                    _surgeonData.Rows.Add(model._id, model._name, model._middleName, model._lastName, model._organization);
+
+                }
             }
 
         }
@@ -77,9 +121,18 @@ namespace AutoFiller_APP
                 MessageBox.Show(Utility.Constants.NO_ENTRY_SELECTED);
                 return;
             }
-            Main._instance._selectedSurgeon = Main._instance._surgeons[_surgeonData.SelectedCells[0].RowIndex];
-            RefreshSelected();
-            this.Close();
+            var selectedId = _surgeonData.CurrentRow.Cells[0].Value.ToString();
+            using (var db = new AutoDBContext())
+            {
+                var data = db.CivilSurgeons.Where(d => d.FormId == selectedId).FirstOrDefault();
+                if (data != null)
+                {
+                    var civilData = JsonConvert.DeserializeObject<CivilSurgeon_Preparer>(data.FormData);
+                    Main._instance._selectedSurgeon = civilData;
+                    RefreshSelected();
+                    this.Close();
+                }
+            }
         }
 
         private void _unselectButton_Click(object sender, EventArgs e)

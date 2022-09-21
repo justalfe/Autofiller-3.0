@@ -1,5 +1,7 @@
-﻿using AutoFiller_APP.Manager;
+﻿using AutoFiller_APP.Entites;
+using AutoFiller_APP.Manager;
 using AutoFiller_APP.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,19 +58,58 @@ namespace AutoFiller_APP
 
         }
 
-        public bool SavePreparer()
+        public bool SavePreparerOld()
         {
             var ok = APIManager.SaveCivilSurgeonPreparer(new CivilSurgeon_Preparer(_id, _surgeonLastname.Text, _surgeonFirstname.Text, _surgeonMiddlename.Text, _surgeonOrg.Text, "", I693.AddressType.NONE, "",
-                "", I693.States.NONE, "",_province.Text,_postalCode.Text,_country.Text, _mailingAddress.Text, (I693.AddressType)_mailingAddressSubType.SelectedIndex, _mailingAddressNumber.Text, _mailingAddressCity.Text, (I693.States)_mailingAddressState.SelectedIndex,
-                _mailingZip.Text, _surgeonPhone.Text, _surgeonMobilePhone.Text, _surgeonEmail.Text, _radioButtonA.Checked, _radioButtonExtends.Checked),true);
+                "", I693.States.NONE, "", _province.Text, _postalCode.Text, _country.Text, _mailingAddress.Text, (I693.AddressType)_mailingAddressSubType.SelectedIndex, _mailingAddressNumber.Text, _mailingAddressCity.Text, (I693.States)_mailingAddressState.SelectedIndex,
+                _mailingZip.Text, _surgeonPhone.Text, _surgeonMobilePhone.Text, _surgeonEmail.Text, _radioButtonA.Checked, _radioButtonExtends.Checked), true);
             return ok;
+        }
+
+        public bool SavePreparer()
+        {
+            try
+            {
+                var model = new CivilSurgeon_Preparer(_id, _surgeonLastname.Text, _surgeonFirstname.Text, _surgeonMiddlename.Text, _surgeonOrg.Text, "", I693.AddressType.NONE, "",
+                "", I693.States.NONE, "", _province.Text, _postalCode.Text, _country.Text, _mailingAddress.Text, (I693.AddressType)_mailingAddressSubType.SelectedIndex, _mailingAddressNumber.Text, _mailingAddressCity.Text, (I693.States)_mailingAddressState.SelectedIndex,
+                _mailingZip.Text, _surgeonPhone.Text, _surgeonMobilePhone.Text, _surgeonEmail.Text, _radioButtonA.Checked, _radioButtonExtends.Checked);
+
+
+                using (var db = new AutoDBContext())
+                {
+                    var preparer = db.Preparers.Where(d => d.FormId == model._id).FirstOrDefault();
+                    if (preparer == null)
+                    {
+                        model._id = Utility.GenerateSringToken();
+                        var tblPreparer = new Preparer()
+                        {
+                            CreatedDate = DateTime.Now,
+                            FormId = model._id,
+                            FormData = JsonConvert.SerializeObject(model)
+                        };
+                        db.Preparers.Add(tblPreparer);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        preparer.FormData = JsonConvert.SerializeObject(model);
+                        preparer.LastUpdated = DateTime.Now;
+                        db.SaveChanges();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         private void _saveButton_Click(object sender, EventArgs e)
         {
             if (SavePreparer())
             {
-                Main._instance.LoadCSP();
+                //Main._instance.LoadCSP();
                 PreparerList._instance.RefreshTable();
                 this.Close();
             }

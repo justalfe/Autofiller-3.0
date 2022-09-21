@@ -17,7 +17,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\shuja\OneDrive\Desktop\my-pub-site-12345\</PublishUrl>
+    <PublishUrl>C:\Users\shuja\OneDrive\Desktop\publish-app\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>15</ApplicationRevision>
+    <ApplicationRevision>18</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -177,6 +177,7 @@
     <Compile Include="Model\DbConfigModel.cs" />
     <Compile Include="Model\DbConnectionSetupModel.cs" />
     <Compile Include="Model\ExportModel.cs" />
+    <Compile Include="Model\PateintFilterExtension.cs" />
     <Compile Include="PreparerForm.cs">
       <SubType>Form</SubType>
     </Compile>

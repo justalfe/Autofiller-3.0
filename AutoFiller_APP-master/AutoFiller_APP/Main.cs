@@ -1,4 +1,5 @@
-﻿using AutoFiller_APP.Manager;
+﻿using AutoFiller_APP.Entites;
+using AutoFiller_APP.Manager;
 using AutoFiller_APP.Model;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
@@ -24,7 +25,9 @@ namespace AutoFiller_APP
         public static Main _instance;
         public List<I693> _forms = new List<I693>();
         public List<CivilSurgeon_Preparer> _surgeons = new List<CivilSurgeon_Preparer>();
+        //public List<CivilSurgeon> _surgeons = new List<CivilSurgeon>();
         public List<CivilSurgeon_Preparer> _preparers = new List<CivilSurgeon_Preparer>();
+        //public List<Preparer> _preparers = new List<Preparer>();
         public CivilSurgeon_Preparer _selectedSurgeon = null;
         public CivilSurgeon_Preparer _selectedPreparer = null;
         public Main()
@@ -134,6 +137,13 @@ namespace AutoFiller_APP
                 _surgeons = JsonConvert.DeserializeObject<List<CivilSurgeon_Preparer>>(cspData.surgeon.ToString());
                 _preparers = JsonConvert.DeserializeObject<List<CivilSurgeon_Preparer>>(cspData.preparer.ToString());
             }
+
+
+            /*using (var context = new AutoDBContext())
+            {
+                _surgeons = context.CivilSurgeons;
+                _preparers = context.Preparers;
+            }*/
         }
 
         public void RefreshSelectedSurgeonPreparer()

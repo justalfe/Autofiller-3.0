@@ -14,10 +14,12 @@ namespace AutoFiller_APP.Entites
     
     public partial class CivilSurgeon
     {
+
         public long Id { get; set; }
         public string FormId { get; set; }
         public string FormData { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<System.DateTime> LastUpdated { get; set; }
+
     }
 }

@@ -21,6 +21,16 @@ namespace AutoFiller_APP
         public ExportForm()
         {
             InitializeComponent();
+
+            List<ItemGender> items = new List<ItemGender>();
+            items.Add(new ItemGender() { Text = "Select Gender", Value = "Select Gender" });
+            items.Add(new ItemGender() { Text = "Male", Value = "Male" });
+            items.Add(new ItemGender() { Text = "Female", Value = "Female" });
+
+            cmbGender.DataSource = items;
+            cmbGender.DisplayMember = "Text";
+            cmbGender.ValueMember = "Value";
+
         }
 
         private void ExportSCExcel_Click(object sender, EventArgs e)
@@ -161,7 +171,7 @@ namespace AutoFiller_APP
 
                                 foreach (var item in preparerModel)
                                 {
-                                    dt.Rows.Add(item._id,  item._name, item._middleName, item._lastName,
+                                    dt.Rows.Add(item._id, item._name, item._middleName, item._lastName,
                                         item._organization,
                                         item._streetAddress,
                                         item._addressType,
@@ -209,11 +219,17 @@ namespace AutoFiller_APP
         {
             using (var db = new AutoDBContext())
             {
-                var patientModel = db.Patients.AsEnumerable().Select(d => MapPatientDataSet(d.I693Data)).ToList();
+                var gender = string.IsNullOrEmpty(cmbGender?.SelectedValue?.ToString()) || cmbGender.SelectedValue.ToString().Equals("Select Gender") ? "" : cmbGender.SelectedValue.ToString();
+                var patientModel = db.Patients.AsEnumerable()
+                          .Select(f => MapPatientDataSet(f.I693Data))
+                          .PatientFilters(AllCheckBox.Checked, startDateBox.Value, endDateBox.Value, gender, txtAddress.Text, txtPhone.Text, txtEmail.Text);
+
+
                 if (patientModel.Count > 0)
                 {
                     try
                     {
+
                         //saving file in location 
                         using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
                         {
@@ -222,7 +238,7 @@ namespace AutoFiller_APP
                                 var properties = typeof(PatientExportModel).GetProperties();
                                 DataTable dt = new DataTable("PatientDataTable");
                                 dt.Columns.AddRange(new DataColumn[42] {
-                                            new DataColumn("UniqueId"),                                          
+                                            new DataColumn("UniqueId"),
                                             new DataColumn("Applicant First Name"),
                                             new DataColumn("Applicant Middle Name"),
                                             new DataColumn("Applicant Last Name"),
@@ -263,16 +279,16 @@ namespace AutoFiller_APP
                                             new DataColumn("Interpreter Email"),
                                             new DataColumn("Interpreter Language"),
                                             new DataColumn("Interpreter Signature"),
-                                            new DataColumn("Interpreter Signature Date")    
+                                            new DataColumn("Interpreter Signature Date")
                          });
 
                                 foreach (var item in patientModel)
                                 {
-                                    dt.Rows.Add(item._uniqueId,                                      
+                                    dt.Rows.Add(item._uniqueId,
                                         item._firstname,
                                         item._middlename,
                                         item._lastname,
-                                        item._addressType,                                        
+                                        item._addressType,
                                         item._addressStreet,
                                         item._addressCity,
                                         item._addressState,
@@ -309,7 +325,7 @@ namespace AutoFiller_APP
                                         item._interpreterEmail,
                                         item._interpreterLanguage,
                                         item._interpreterSignature,
-                                        item._interpreterSignatureDate                                       
+                                        item._interpreterSignatureDate
                                         );
                                 }
 
@@ -329,18 +345,33 @@ namespace AutoFiller_APP
                     }
 
                 }
+                else
+                {
+                    MessageBox.Show("Records not found!");
+                }
             }
         }
+
 
         private PatientExportModel MapPatientDataSet(string source)
         {
             if (!string.IsNullOrEmpty(source))
             {
-                var sourceModel = JsonConvert.DeserializeObject<PatientExportModel>(source);             
+                var sourceModel = JsonConvert.DeserializeObject<PatientExportModel>(source);
                 return sourceModel;
             }
-            
+
             return new PatientExportModel();
         }
+
+        private void AllCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            startDateBox.Enabled = (!AllCheckBox.Checked);
+            endDateBox.Enabled = (!AllCheckBox.Checked);
+        }
+
     }
 }
+
+
+

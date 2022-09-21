@@ -1,5 +1,7 @@
-﻿using AutoFiller_APP.Manager;
+﻿using AutoFiller_APP.Entites;
+using AutoFiller_APP.Manager;
 using AutoFiller_APP.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,10 +62,44 @@ namespace AutoFiller_APP
 
         public bool SaveSurgeon()
         {
-            var ok = APIManager.SaveCivilSurgeonPreparer(new CivilSurgeon_Preparer(_id, _surgeonLastname.Text, _surgeonFirstname.Text, _surgeonMiddlename.Text, _surgeonOrg.Text, _addressStreet.Text, (I693.AddressType)_addressType.SelectedIndex, _addressNumber.Text,
+            /*var ok = APIManager.SaveCivilSurgeonPreparer(new CivilSurgeon_Preparer(_id, _surgeonLastname.Text, _surgeonFirstname.Text, _surgeonMiddlename.Text, _surgeonOrg.Text, _addressStreet.Text, (I693.AddressType)_addressType.SelectedIndex, _addressNumber.Text,
                 _addressCity.Text, (I693.States)_addressState.SelectedIndex, _addressZip.Text,"","","", _mailingAddress.Text, (I693.AddressType)_mailingAddressSubType.SelectedIndex, _mailingAddressNumber.Text, _mailingAddressCity.Text, (I693.States)_mailingAddressState.SelectedIndex,
                 _mailingZip.Text, _surgeonPhone.Text, _surgeonMobilePhone.Text, _surgeonEmail.Text,false,false),false);
-            return ok;
+            return ok;*/
+
+            //SAVE IN DATABASE
+
+            CivilSurgeon_Preparer csEntity = new CivilSurgeon_Preparer(_id, _surgeonLastname.Text, _surgeonFirstname.Text, _surgeonMiddlename.Text, _surgeonOrg.Text, _addressStreet.Text, (I693.AddressType)_addressType.SelectedIndex, _addressNumber.Text,
+                _addressCity.Text, (I693.States)_addressState.SelectedIndex, _addressZip.Text, "", "", "", _mailingAddress.Text, (I693.AddressType)_mailingAddressSubType.SelectedIndex, _mailingAddressNumber.Text, _mailingAddressCity.Text, (I693.States)_mailingAddressState.SelectedIndex,
+                _mailingZip.Text, _surgeonPhone.Text, _surgeonMobilePhone.Text, _surgeonEmail.Text, false, false);
+
+            int res = 0;
+            using (var context = new AutoDBContext())
+            {
+                if (!context.CivilSurgeons.Any(cs => cs.FormId.Equals(csEntity._id)))
+                {
+                    var sergeon = new CivilSurgeon();
+                    sergeon.FormId = Utility.GenerateSringToken();
+                    csEntity._id = sergeon.FormId;
+                    sergeon.FormData = JsonConvert.SerializeObject(csEntity);
+                    sergeon.CreatedDate = DateTime.Now;
+                    context.CivilSurgeons.Add(sergeon);
+                    res = context.SaveChanges();
+                }
+                else
+                {
+                    var sergeon = context.CivilSurgeons.Single(cs => cs.FormId.Equals(_id));
+                    if (sergeon != null)
+                    {
+                        sergeon.FormData = JsonConvert.SerializeObject(csEntity);
+                        sergeon.LastUpdated = DateTime.Now;
+                        res = context.SaveChanges();
+                    }
+                }
+            }
+            //END
+
+            return (res > 0);
         }
 
         private void _saveButton_Click(object sender, EventArgs e)
