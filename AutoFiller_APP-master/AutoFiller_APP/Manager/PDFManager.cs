@@ -21,7 +21,7 @@ namespace AutoFiller_APP.Manager
         {
             try
             {
-                var path = System.Windows.Forms.Application.StartupPath + @"\resources\i-693.pdf";
+                var path = System.Windows.Forms.Application.StartupPath + @"\resources\i693d.pdf";
                 PdfReader pdfReader = new PdfReader(path);
                 PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(_destinationFile, FileMode.Create));
                 AcroFields pdfFormFields = pdfStamper.AcroFields;
@@ -134,10 +134,6 @@ namespace AutoFiller_APP.Manager
                 pdfFormFields.SetField("form1[0].#subform[2].Pt4Line2_IDNumber[0]", source._applicantIdentificationNumber.ToUpper());
                 if (surgeon != null)
                 {
-                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line1_FamilyName[0]", surgeon._lastName.ToUpper());
-                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line1_GivenName[0]", surgeon._name.ToUpper());
-                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line1_MiddleName[0]", surgeon._middleName.ToUpper());
-                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line2_MedPracticeName[0]", surgeon._organization.ToUpper());
                     pdfFormFields.SetField("form1[0].#subform[3].Pt6Line3_State[0]", surgeon._state.ToString());
 
                     switch (surgeon._addressType)
@@ -152,6 +148,11 @@ namespace AutoFiller_APP.Manager
                             pdfFormFields.SetField("form1[0].#subform[5].Pt6Line3_Unit[0]", " FLR ");
                             break;
                     }
+
+                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line1_FamilyName[0]", surgeon._lastName.ToUpper());
+                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line1_GivenName[0]", surgeon._name.ToUpper());
+                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line1_MiddleName[0]", surgeon._middleName.ToUpper());
+                    pdfFormFields.SetField("form1[0].#subform[3].Pt6Line2_MedPracticeName[0]", surgeon._organization.ToUpper());
 
                     pdfFormFields.SetField("form1[0].#subform[3].Pt6Line3_ZipCode[0]", surgeon._zip.ToUpper());
                     pdfFormFields.SetField("form1[0].#subform[3].Pt6Line3_StreetNumberName[0]", surgeon._streetAddress.ToUpper());

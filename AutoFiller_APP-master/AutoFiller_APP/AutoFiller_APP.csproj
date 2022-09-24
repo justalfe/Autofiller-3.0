@@ -290,12 +290,6 @@
     <Content Include="resources\base.label">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="resources\i-693.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="resources\i693d.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="resources\statistics.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
